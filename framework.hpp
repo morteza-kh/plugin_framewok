@@ -7,21 +7,24 @@
 #include <boost/asio.hpp>
 #include <boost/signals2.hpp>
 
+//template <typename... Args>
+//class event {
+//	boost::signals2::signal<void(Args...)> sig_;
+//
+//public:
+//	event() {}
+//	virtual ~event() = default;
+//
+//	template <typename F>
+//	auto connect(F &&f) -> void {
+//		sig_.connect(std::move(f));
+//	}
+//
+//	auto operator()(Args &&...args) -> void { sig_(args...); }
+//};
+
 template <typename... Args>
-class event {
-	boost::signals2::signal<void(Args...)> sig_;
-
-public:
-	event() {}
-	virtual ~event() = default;
-
-	template <typename F>
-	auto connect(F &&f) -> void {
-		sig_.connect(std::move(f));
-	}
-
-	auto operator()(Args &&...args) -> void { sig_(args...); }
-};
+using event = boost::signals2::signal<void(Args...)>;
 
 class handler {
 	std::unique_ptr<boost::asio::io_context> io_;
